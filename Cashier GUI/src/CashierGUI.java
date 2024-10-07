@@ -11,22 +11,10 @@ public class CashierGUI extends JFrame implements ActionListener {
     private int screenWidth;
     private int screenHeight;
 
-    private final JPanel customerOrderToolBar = new JPanel();
-
-    private final JPanel foodSearchToolBar = new JPanel();
-
-    private final JPanel customerFoodOrder = new JPanel();
-
-    private final JPanel customerInformation = new JPanel();
-
-    private final JPanel foodOptions = new JPanel();
-
-    private final JPanel foodCategoryOptions = new JPanel();
-
     CashierGUI(){
         acquireScreenSize();
         setUpGUIPanelSizes();
-        GUISetup();
+        GUISetVisible();
     }
 
     public void acquireScreenSize(){
@@ -56,31 +44,22 @@ public class CashierGUI extends JFrame implements ActionListener {
         System.out.println("PanelsWidth | topAndBotPanelsHeight | middlePanelsHeight \n " +
                             panelsWidth + " | " + topAndBotPanelsHeight + " | " + middlePanelsHeight);
 
-        customerOrderToolBar.setBounds(0,0,panelsWidth,topAndBotPanelsHeight);
-        customerOrderToolBar.setBackground(Color.DARK_GRAY);
+        new customerOrderToolBar(this, panelsWidth, topAndBotPanelsHeight, middlePanelsHeight);
 
-        foodSearchToolBar.setBounds(panelsWidth,0,panelsWidth,topAndBotPanelsHeight) ;
-        foodSearchToolBar.setBackground(Color.GRAY);
+        new foodSearchToolBar(this, panelsWidth, topAndBotPanelsHeight, middlePanelsHeight);
 
-        customerFoodOrder.setBounds(0,topAndBotPanelsHeight,panelsWidth,middlePanelsHeight);
-        customerFoodOrder.setBackground(Color.lightGray);
+        new customerFoodOrder(this, panelsWidth, topAndBotPanelsHeight, middlePanelsHeight);
 
-        customerInformation.setBounds(0,panelsWidth+topAndBotPanelsHeight,panelsWidth,topAndBotPanelsHeight);
-        customerInformation.setBackground(Color.DARK_GRAY);
+        new foodCategoryOptions(this, panelsWidth, topAndBotPanelsHeight, middlePanelsHeight);
 
-        foodOptions.setBounds(panelsWidth,topAndBotPanelsHeight,panelsWidth,middlePanelsHeight);
-        foodOptions.setBackground(Color.DARK_GRAY);
+        new foodOptions(this, panelsWidth, topAndBotPanelsHeight, middlePanelsHeight);
+
+        new customerInformation(this, panelsWidth, topAndBotPanelsHeight, middlePanelsHeight);
+
     }
-    public void GUISetup(){
+    public void GUISetVisible(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
-
-
-        this.add(customerInformation);
-        this.add(customerFoodOrder);
-        this.add(foodSearchToolBar);
-        this.add(customerOrderToolBar);
-        this.add(foodOptions);
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
