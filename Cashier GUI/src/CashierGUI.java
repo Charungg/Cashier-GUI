@@ -3,9 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// Note maybe make the top bar and bottom bar different size.
-// So the top bar can be smaller than the bottom bar because food category will take a lot of space
-
 public class CashierGUI extends JFrame implements ActionListener {
 
     private int screenWidth;
@@ -100,7 +97,6 @@ public class CashierGUI extends JFrame implements ActionListener {
 
         helpMenu.add(howToUseItem);
 
-
         fileMenu.add(orderHistoryItem);
 
         menuBar.add(fileMenu);
@@ -119,10 +115,12 @@ public class CashierGUI extends JFrame implements ActionListener {
     }
 
 
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == editFoodItem){
-
+            System.out.println("Hello World");
         }
     }
 }
