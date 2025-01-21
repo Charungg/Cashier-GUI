@@ -6,9 +6,6 @@
 public class Main {
 
     public static void main(String[] args) {
-        Database db = new Database();
-        db.connectToDatabase("Cashier Database","postgres","DIU2024");
-        db.setUpAllTables();
         new CashierGUI();
     }
 }

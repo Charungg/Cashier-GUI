@@ -68,36 +68,31 @@ public class CashierGUI extends JFrame implements ActionListener {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu fileMenu = new JMenu("File");
-        JMenu editMenu = new JMenu("Edit");
-        JMenu helpMenu = new JMenu("Help");
-
         JMenuItem orderHistoryItem = new JMenuItem("Order History");
-        JMenuItem printOrderHistoryItem = new JMenuItem("Print OrderHistory");
+        JMenuItem printOrderHistoryItem = new JMenuItem("Print Order History");
         JMenuItem customerHistoryItem = new JMenuItem("Customer History");
         JMenuItem saveDatabaseItem = new JMenuItem("Save Database");
         JMenuItem loadDatabaseItem = new JMenuItem("Load Database");
-
-        editFoodItem = new JMenuItem("Food/Prices");
-        JMenuItem editFoodModifiers = new JMenuItem("Food Modifiers");
-        JMenuItem editDeliverTracker = new JMenuItem("Deliver Tracker");
-
-        JMenuItem howToUseItem = new JMenuItem("How to Use");
-
-        editFoodItem.addActionListener(this);
-
         fileMenu.add(orderHistoryItem);
         fileMenu.add(printOrderHistoryItem);
         fileMenu.add(customerHistoryItem);
         fileMenu.add(saveDatabaseItem);
         fileMenu.add(loadDatabaseItem);
 
+
+        JMenu editMenu = new JMenu("Edit");
+        JMenuItem editFoodItem = new JMenuItem("Food/Prices");
+        JMenuItem editFoodModifiers = new JMenuItem("Food Modifiers");
+        JMenuItem editDeliverTracker = new JMenuItem("Deliver Tracker");
         editMenu.add(editFoodItem);
         editMenu.add(editFoodModifiers);
         editMenu.add(editDeliverTracker);
 
+
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem howToUseItem = new JMenuItem("How to Use");
         helpMenu.add(howToUseItem);
 
-        fileMenu.add(orderHistoryItem);
 
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
@@ -105,22 +100,21 @@ public class CashierGUI extends JFrame implements ActionListener {
 
         this.setJMenuBar(menuBar);
     }
+
+
     public void GUISetVisible(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
-
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
 
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == editFoodItem){
-            System.out.println("Hello World");
-        }
+//        if (e.getSource() == editFoodItem){
+//            System.out.println("Hello World");
+//        }
     }
 }
