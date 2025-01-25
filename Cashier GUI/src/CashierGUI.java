@@ -2,11 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 public class CashierGUI extends JFrame implements ActionListener {
 
+    // Application screen dimensions
     private int screenWidth;
     private int screenHeight;
+
+    // Application item bar
+    private JMenuItem editFoodItem;
+
+    // Applications elements
     private customerOrderToolBar customerOrderToolBar;
     private foodSearchToolBar foodSearchToolBar;
     private customerFoodOrder customerFoodOrder;
@@ -14,13 +21,21 @@ public class CashierGUI extends JFrame implements ActionListener {
     private customerInformation customerInformation;
     private foodCategoryOptions foodCategoryOptions;
 
-    private JMenuItem editFoodItem;
 
     CashierGUI(){
         acquireScreenSize();
         setupMenuBar();
         setUpGUIPanel();
         GUISetVisible();
+
+        Database db = new Database();
+        Connection conn = db.connectToDatabase("Lok","postgres", "Saraba");
+
+//        db.dropALL(conn);
+        db.createFoodTable(conn);
+        db.createCustomerFullNameTable(conn);
+        db.createAddressTable(conn);
+        db.createCustomerTable(conn);
     }
 
     public void acquireScreenSize(){

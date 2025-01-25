@@ -1,89 +1,128 @@
+// Using postgresSQL
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-// Using postgresSQL
 public class Database {
 
-    Connection conn;
-    public Connection connectToDatabase(String dbname,String user, String pass){
-        // Allows for this program to query the database.
-        conn=null;
+    public Connection connectToDatabase(String dbName, String userName, String password) {
+        Connection conn = null;
 
-        // Programed to connect to the database if it exists and
-        // providing the correct username and password.
         try{
             Class.forName("org.postgresql.Driver");
-            // Given the connection if the database exist and validated access
-            conn= DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+dbname,user,pass);
-            if (conn!=null){
-                System.out.println("Established Link");
+            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + dbName, userName, password);
+
+            if (conn != null) {
+                System.out.println("Connected to PostgreSQL database");
             }
 
-            // Indicates either that the database does not exist or failed validation.
-            else{
-                System.out.println("Connection Failed");
+            else {
+                System.out.println("Failed to connect to PostgreSQL database");
             }
         }
 
         catch(Exception e){
-            e.printStackTrace();
+            System.out.println(e);
         }
 
         return conn;
     }
 
-    public void setUpAllTables(){
-        createFoodTable();
-    }
 
-    public void createFoodTable(){
-        String query;
-        Statement statement;
-        String tableName = "foodItems";
+    public boolean executeUpdate(Connection conn, String query) {
+        Statement stmt = null;
 
         try{
-            if (isTableExist(tableName) == 1){
-                query="CREATE TABLE "+tableName+"(food VARCHAR(50), food INT);";
-                statement=conn.createStatement();
-                statement.executeUpdate(query);
-                System.out.println("Created a new table, foodItems");
-            }
-
-            else{
-                System.out.println("Table foodItems already exist");
-            }
+            stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+            return true;
         }
 
         catch(Exception e){
-            System.out.println("Cannot create table");
+            System.out.println(e);
+            return false;
         }
-
     }
 
-    public int isTableExist(String tableName){
-        String query;
-        Statement statement;
+
+    public boolean executeQuery(Connection conn, String query) {
+        Statement stmt = null;
 
         try{
-            query = "SELECT EXISTS(" +
-                    " SELECT 1" +
-                    " FROM information_schema.tables" +
-                    " WHERE table_name ="+tableName +
-                    ") AS table_existence;;";
-
-            statement = conn.createStatement();
-            return statement.executeUpdate(query);
+            stmt = conn.createStatement();
+            stmt.executeQuery(query);
+            return true;
         }
+
         catch(Exception e){
-            System.out.println("Cannot isTableExist");
+            System.out.println(e);
+            return false;
         }
+    }
 
-        return 0;
+
+    // Food Table Functions
+
+    public void createFoodTable(Connection conn){
+        String query = "CREATE TABLE foodTable (foodID INTEGER, foodName VARCHAR(100), foodPrice INTEGER, UNIQUE(foodName))";
+        if (executeUpdate(conn, query)){
+            System.out.println("foodTable created");
+        }
     }
 
 
 
+    public void insertFoodTable(Connection conn, String foodName, int foodPrice){
+        String query = String.format("insert into foodTable(foodName, foodPrice) values('%s','%s')", foodName, foodPrice);
+        if (executeUpdate(conn, query)){
+            System.out.println(String.format("foodTable inserted with ('%s','%s')", foodName, foodPrice));
+        }
+    }
 
 
+    // Customer Table Functions
+
+    public void createCustomerTable(Connection conn){
+        String query = "CREATE TABLE customerTable (customerID INTEGER, customerFullNameID INTEGER references customerFullNameTable(customerFullNameID), customerAddressID INTEGER, UNIQUE(customerFullNameID, customerAddressID), PRIMARY KEY(customerID))";
+        if (executeUpdate(conn, query)){
+            System.out.println("customerTable created");
+        }
+    }
+
+
+    // Customer Full Name Table Functions
+
+    public void createCustomerFullNameTable(Connection conn){
+        String query = "CREATE TABLE customerFullNameTable (customerFullNameID INTEGER, customerFirstName VARCHAR(100), customerSurname VARCHAR(100), UNIQUE(customerFirstName, customerSurname), PRIMARY KEY (customerFullNameID))";
+        if (executeUpdate(conn, query)){
+            System.out.println("customerFullNameTable created");
+        }
+    }
+
+
+    // Address Table Functions
+
+    public void createAddressTable(Connection conn){
+        String query = "CREATE TABLE addressTable (addressID INTEGER, houseNumber INTEGER, addressName VARCHAR(100), postCode VARCHAR(8), UNIQUE(houseNumber, addressName), PRIMARY KEY (addressID))";
+        if (executeUpdate(conn, query)){
+            System.out.println("addressTable created");
+        }
+    }
+
+
+    // Drop Table Functions
+
+    public void dropALL(Connection conn){
+        String query = "DROP TABLE foodTable;";
+        executeUpdate(conn, query);
+
+        query = "DROP TABLE customerTable;";
+        executeUpdate(conn, query);
+
+        query = "DROP TABLE customerFullNameTable;";
+        executeUpdate(conn, query);
+
+        query = "DROP TABLE addressTable;";
+        executeUpdate(conn, query);
+    }
 }
