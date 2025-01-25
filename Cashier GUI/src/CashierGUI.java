@@ -23,19 +23,13 @@ public class CashierGUI extends JFrame implements ActionListener {
 
 
     CashierGUI(){
-        acquireScreenSize();
-        setupMenuBar();
-        setUpGUIPanel();
-        GUISetVisible();
+//        acquireScreenSize();
+//        setupMenuBar();
+//        setUpGUIPanel();
+//        GUISetVisible();
 
         Database db = new Database();
-        Connection conn = db.connectToDatabase("Lok","postgres", "Saraba");
-
-//        db.dropALL(conn);
-        db.createFoodTable(conn);
-        db.createCustomerFullNameTable(conn);
-        db.createAddressTable(conn);
-        db.createCustomerTable(conn);
+        db.testDatabase();
     }
 
     public void acquireScreenSize(){
