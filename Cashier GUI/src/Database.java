@@ -3,12 +3,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Queue;
 
 public class Database {
 
+    private Connection conn;
+
     public Connection connectToDatabase(String dbName, String userName, String password) {
-        Connection conn = null;
+        conn = null;
 
         try{
             Class.forName("org.postgresql.Driver");
@@ -66,7 +69,7 @@ public class Database {
     // Food Table Functions
 
     public void createFoodTable(Connection conn){
-        String query = "CREATE TABLE foodTable (foodID SERIAL, foodName VARCHAR(100), foodPrice INTEGER, UNIQUE(foodName))";
+        String query = "CREATE TABLE foodTable (foodID SERIAL, foodName VARCHAR(100), foodPrice FLOAT(1), UNIQUE(foodName))";
         if (executeUpdate(conn, query)){
             System.out.println("foodTable created");
         }
@@ -74,11 +77,31 @@ public class Database {
 
 
 
-    public void insertFoodTable(Connection conn, String foodName, int foodPrice){
-        String query = String.format("INSERT INTO foodTable(foodName, foodPrice) values('%s','%s')", foodName, foodPrice);
+    public void insertFoodTable(Connection conn, String foodName, float foodPrice){
+        String query = String.format("INSERT INTO foodTable(foodName, foodPrice) values('%s','%.2f')", foodName, foodPrice);
         if (executeUpdate(conn, query)){
             System.out.println(String.format("foodTable inserted with ('%s','%s')", foodName, foodPrice));
         }
+    }
+
+
+    public HashMap<String,Float> getFoodTableContent(Connection conn){
+        HashMap<String,Float> foodTableContent = new HashMap();
+
+        String query = String.format("SELECT * FROM foodTable");
+        ResultSet foodTableContentResult = executeQuery(conn,query);
+
+        try{
+            while (foodTableContentResult.next()){
+                foodTableContent.put(foodTableContentResult.getString("foodName"), foodTableContentResult.getFloat("foodPrice"));
+            }
+        }
+
+        catch(Exception e){
+            System.out.println(e);
+        }
+
+        return foodTableContent;
     }
 
 
@@ -236,5 +259,16 @@ public class Database {
         insertAddressTable(conn, 24, "Redwood Way", "LS19 7JU");
         insertAddressTable(conn, 33, "Penglais", "SY23 3LH");
         insertAddressTable(conn, 5, "Penglais", "SY23 3LH");
+
+        insertFoodTable(conn, "Chicken Wings", 7.99F);
+        insertFoodTable(conn, "Chips", 3.99F);
+        insertFoodTable(conn, "Salt and Pepper Chips", 5.99F);
+        insertFoodTable(conn, "Coke", 1.80F);
+        insertFoodTable(conn, "Boiled Rice", 2.00F);
+        insertFoodTable(conn, "Pork Dumpling", 5.99F);
+        insertFoodTable(conn, "Prawn Dumpling", 5.99F);
+        insertFoodTable(conn, "Chicken Chow Mein with Sauce", 6.99F);
+        insertFoodTable(conn, "Beef Chow Mein with Sauce", 6.99F);
+
     }
 }

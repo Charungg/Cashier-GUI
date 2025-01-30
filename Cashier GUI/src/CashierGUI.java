@@ -23,13 +23,16 @@ public class CashierGUI extends JFrame implements ActionListener {
 
 
     CashierGUI(){
-//        acquireScreenSize();
-//        setupMenuBar();
-//        setUpGUIPanel();
-//        GUISetVisible();
-
         Database db = new Database();
         db.testDatabase();
+        Connection conn = db.connectToDatabase("Lok", "postgres", "Saraba");
+
+
+
+        acquireScreenSize();
+        setupMenuBar();
+        setUpGUIPanel(conn);
+        GUISetVisible();
     }
 
     public void acquireScreenSize(){
@@ -50,7 +53,7 @@ public class CashierGUI extends JFrame implements ActionListener {
         System.out.println("Screen size = " + screenWidth + " x " + screenHeight);
     }
 
-    public void setUpGUIPanel(){
+    public void setUpGUIPanel(Connection conn){
         this.setSize(screenWidth,screenHeight);
 
         final int panelsWidth = screenWidth/2;
@@ -63,7 +66,7 @@ public class CashierGUI extends JFrame implements ActionListener {
 
         foodSearchToolBar = new foodSearchToolBar(this, panelsWidth, topAndBotPanelsHeight);
 
-        customerFoodOrder = new customerFoodOrder(this, panelsWidth, topAndBotPanelsHeight, middlePanelsHeight);
+        customerFoodOrder = new customerFoodOrder(this, panelsWidth, topAndBotPanelsHeight, middlePanelsHeight, conn);
 
         foodCategoryOptions = new foodCategoryOptions(this, panelsWidth, topAndBotPanelsHeight, middlePanelsHeight);
 
