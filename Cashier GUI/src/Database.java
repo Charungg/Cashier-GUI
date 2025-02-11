@@ -245,20 +245,20 @@ public class Database {
         createAddressTable(conn);
         createCustomerTable(conn);
 
-        insertAddressPostCodeTable(conn, "Redwood Way", "LS19 7JU");
-        isAddressPostCodeExist(conn, "Redwood Way", "LS19 7JU");
+        insertAddressPostCodeTable(conn, "Grange Road", "UB22 7ER");
+        isAddressPostCodeExist(conn, "Grange Road", "UB22 7ER");
 
-        insertAddressPostCodeTable(conn, "Penglais", "SY23 3LH");
-        isAddressPostCodeExist(conn, "Penglais", "SY23 3LH");
+        insertAddressPostCodeTable(conn, "New Street", "BT28 4ZH");
+        isAddressPostCodeExist(conn, "New Street", "BT28 4ZH");
 
         System.out.println();
 
-        insertAddressTable(conn, 59, "Redwood Way", "LS19 7JU");
-        insertAddressTable(conn, 21, "Penglais", "SY23 3LH");
-        insertAddressTable(conn, 23, "Redwood Way", "LS19 7JU");
-        insertAddressTable(conn, 24, "Redwood Way", "LS19 7JU");
-        insertAddressTable(conn, 33, "Penglais", "SY23 3LH");
-        insertAddressTable(conn, 5, "Penglais", "SY23 3LH");
+        insertAddressTable(conn, 59, "Grange Road", "UB22 7ER");
+        insertAddressTable(conn, 21, "New Street", "BT28 4ZH");
+        insertAddressTable(conn, 23, "Grange Road", "UB22 7ER"");
+        insertAddressTable(conn, 24, "Grange Road", "UB22 7ER");
+        insertAddressTable(conn, 33, "New Street", "BT28 4ZH");
+        insertAddressTable(conn, 5, "New Street", "BT28 4ZH"");
 
         insertFoodTable(conn, "Chicken Wings", 7.99F);
         insertFoodTable(conn, "Chips", 3.99F);
